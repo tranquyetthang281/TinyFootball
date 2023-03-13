@@ -19,6 +19,7 @@ public:
 
 	static SDL_Renderer* renderer;
 	static SDL_Event event;
+	static SDL_Texture* backGroundTex;
 	static bool isRunning;
 
 	bool running() { return Game::isRunning; }

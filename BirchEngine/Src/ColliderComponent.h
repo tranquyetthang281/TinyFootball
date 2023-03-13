@@ -9,8 +9,6 @@ class ColliderComponent : public Component
 public:
 	SDL_Rect collider;
 
-	//SDL_Texture* tex;
-	//SDL_Rect srcR, destR;
 
 	TransformComponent* transform;
 
@@ -19,15 +17,6 @@ public:
 	ColliderComponent(std::string t) : Component(t)
 	{
 	}
-
-	//ColliderComponent(std::string t, int xpos, int ypos, int size)
-	//{
-	//	tag = t;
-	//	collider.x = xpos;
-	//	collider.y = ypos;
-	//	collider.h = collider.w = size;
-	//}
-
 
 	void init() override
 	{
@@ -38,29 +27,15 @@ public:
 
 		transform = &entity->getComponent<TransformComponent>();
 
-		//tex = TextureManager::LoadTexture("assets/coltex.png");
-		//srcR = { 0, 0, 32, 32 };
-		//destR = { collider.x, collider.y, collider.w, collider.h };
-
 	}
 
 	void update() override
 	{
-		//if (tag != "terrain")
-		//{
-			collider.x = static_cast<int>(transform->position.x);
-			collider.y = static_cast<int>(transform->position.y);
-			collider.w = transform->width;
-			collider.h = transform->height;
-		//}
 
-		//destR.x = collider.x - Game::camera.x;
-		//destR.y = collider.y - Game::camera.y;
-
-		//collider.x = transform->position.x;
-		//collider.y = transform->position.y;
-		//collider.w = transform->width * transform->scale;
-		//collider.h = transform->height * transform->scale;
+		collider.x = static_cast<int>(transform->position.x);
+		collider.y = static_cast<int>(transform->position.y);
+		collider.w = transform->width;
+		collider.h = transform->height;
 	}
 
 	void draw() override

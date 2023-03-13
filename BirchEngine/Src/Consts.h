@@ -7,3 +7,5 @@ const int HEIGHT = 680;
 
 
 const int DELTAFRAME = 100;
+
+const int NUMPLAYER = 3;

@@ -4,13 +4,17 @@
 #include "Component.h"
 #include "Collision.h"
 #include "string"
+#include "Consts.h"
+#include <vector>
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
+SDL_Texture* Game::backGroundTex = nullptr;
 Manager manager;
-auto& ronaldo(manager.addEntity());
-auto& messi(manager.addEntity());
-auto& ball(manager.addEntity());
+Entity* ronaldos[NUMPLAYER];
+Entity* messis[NUMPLAYER];
+Entity* ball(manager.addEntity());
+
 bool Game::isRunning = false;
 
 Game::Game()
@@ -32,22 +36,34 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	{
 		window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
 		renderer = SDL_CreateRenderer(window, -1, 0);
+		backGroundTex = TextureManager::LoadTexture("Imgs/pitches.png");
 		Game::isRunning = true;
 	}
 
-	ronaldo.addComponent<TransformComponent>("ronaldo", 100, 100, 64, 64);
-	ronaldo.addComponent<SpriteComponent>("Imgs/ronaldo.png");
-	ronaldo.addComponent<RonaldoKeyboardController>();
-	ronaldo.addComponent<ColliderComponent>();
+	for (int i = 0; i < NUMPLAYER; ++i)
+	{
+		ronaldos[i] = manager.addEntity();
+		ronaldos[i]->addComponent<TransformComponent>("ronaldo", 100 + 100 * i, 100, 64, 64);
+		ronaldos[i]->addComponent<SpriteComponent>("Imgs/ronaldo.png");
+		//ronaldos[i]->addComponent<RonaldoKeyboardController>();
+		ronaldos[i]->addComponent<ColliderComponent>();
+	}
 
-	messi.addComponent<TransformComponent>("messi", 500, 100, 64, 64);
-	messi.addComponent<SpriteComponent>("Imgs/messi.png");
-	messi.addComponent<MessiKeyboardController>();
-	messi.addComponent<ColliderComponent>();
+	ronaldos[0]->addComponent<RonaldoKeyboardController>();
 
-	ball.addComponent<TransformComponent>("ball", 300.0f, 300.0f);
-	ball.addComponent<SpriteComponent>("Imgs/soccer-ball.png");
-	ball.addComponent<ColliderComponent>();
+
+	for (int i = 0; i < NUMPLAYER; ++i)
+	{
+		messis[i] = manager.addEntity();
+		messis[i]->addComponent<TransformComponent>("messi", 100 + 100 * i, 500, 64, 64);
+		messis[i]->addComponent<SpriteComponent>("Imgs/messi.png");
+		messis[i]->addComponent<MessiKeyboardController>();
+		messis[i]->addComponent<ColliderComponent>();
+	}
+
+	ball->addComponent<TransformComponent>("ball", 300.0f, 300.0f);
+	ball->addComponent<SpriteComponent>("Imgs/soccer-ball.png");
+	ball->addComponent<ColliderComponent>();
 }
 
 void Game::handleEvents()
@@ -70,29 +86,34 @@ void Game::update()
 {
 	manager.refresh();
 
-	Collision::PlayerScreenCollision(ronaldo.getComponent<ColliderComponent>(), 
-		ronaldo.getComponent<TransformComponent>());
+	for (auto ronaldo : ronaldos)
+	{
+		Collision::PlayerBallCollision(ronaldo->getComponent<ColliderComponent>(), ronaldo->getComponent<TransformComponent>(),
+			ball->getComponent<ColliderComponent>(), ball->getComponent<TransformComponent>());
 
-	Collision::PlayerScreenCollision(messi.getComponent<ColliderComponent>(),
-		messi.getComponent<TransformComponent>());
+		Collision::PlayerScreenCollision(ronaldo->getComponent<ColliderComponent>(),
+			ronaldo->getComponent<TransformComponent>());
+	}
 
-	Collision::BallScreenCollision(ball.getComponent<ColliderComponent>(),
-		ball.getComponent<TransformComponent>());
+	for (auto& messi : messis)
+	{
+		Collision::PlayerBallCollision(messi->getComponent<ColliderComponent>(), messi->getComponent<TransformComponent>(),
+			ball->getComponent<ColliderComponent>(), ball->getComponent<TransformComponent>());
 
-	Collision::PlayerBallCollision(ronaldo.getComponent<ColliderComponent>(), ronaldo.getComponent<TransformComponent>(),
-		ball.getComponent<ColliderComponent>(), ball.getComponent<TransformComponent>());
+		Collision::PlayerScreenCollision(messi->getComponent<ColliderComponent>(),
+			messi->getComponent<TransformComponent>());
+	}
 
-	Collision::PlayerBallCollision(messi.getComponent<ColliderComponent>(), messi.getComponent<TransformComponent>(),
-		ball.getComponent<ColliderComponent>(), ball.getComponent<TransformComponent>());
+	Collision::BallScreenCollision(ball->getComponent<ColliderComponent>(),
+		ball->getComponent<TransformComponent>());
 
 	manager.update();
 }
 
 void Game::render()
 {
-	//SDL_RenderClear(renderer);
-	auto background = TextureManager::LoadTexture("Imgs/pitches.png");
-	SDL_RenderCopy(Game::renderer, background, NULL, NULL);
+	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, backGroundTex, NULL, NULL);
 	manager.draw();
 	SDL_RenderPresent(renderer);
 }
