@@ -177,6 +177,7 @@
   <ItemGroup>
     <Image Include="..\..\..\..\soccer-ball.png" />
     <Image Include="Imgs\messi.png" />
+    <Image Include="Imgs\pitches.png" />
     <Image Include="Imgs\ronaldo.png" />
     <Image Include="Imgs\soccer-ball.png" />
   </ItemGroup>
