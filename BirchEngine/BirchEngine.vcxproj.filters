@@ -94,5 +94,8 @@
     <Image Include="Imgs\messi.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Imgs\pitches.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

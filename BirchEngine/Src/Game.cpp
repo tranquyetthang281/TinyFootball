@@ -32,11 +32,6 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	{
 		window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
 		renderer = SDL_CreateRenderer(window, -1, 0);
-		if (renderer)
-		{
-			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-		}
-
 		Game::isRunning = true;
 	}
 
@@ -95,7 +90,9 @@ void Game::update()
 
 void Game::render()
 {
-	SDL_RenderClear(renderer);
+	//SDL_RenderClear(renderer);
+	auto background = TextureManager::LoadTexture("Imgs/pitches.png");
+	SDL_RenderCopy(Game::renderer, background, NULL, NULL);
 	manager.draw();
 	SDL_RenderPresent(renderer);
 }
