@@ -153,7 +153,6 @@
     <ClCompile Include="Src\Collision.cpp" />
     <ClCompile Include="Src\ECS.cpp" />
     <ClCompile Include="Src\Game.cpp" />
-    <ClCompile Include="Src\GameObject.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\TextureManager.cpp" />
     <ClCompile Include="Src\Vector2D.cpp" />
@@ -165,7 +164,6 @@
     <ClInclude Include="Src\Consts.h" />
     <ClInclude Include="Src\ECS.h" />
     <ClInclude Include="Src\Game.h" />
-    <ClInclude Include="Src\GameObject.h" />
     <ClInclude Include="Src\MessiKeyboardController.h" />
     <ClInclude Include="Src\RonaldoKeyboardController.h" />
     <ClInclude Include="Src\PositionComponent.h" />
