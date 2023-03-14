@@ -2,13 +2,13 @@
 #include "ColliderComponent.h"
 #include "Consts.h"
 
-bool Collision::AABB(const SDL_Rect &recA, const SDL_Rect &recB)
+bool Collision::AABB(const SDL_Rect& recA, const SDL_Rect& recB)
 {
 	if (
-			recA.x + recA.w >= recB.x &&
-			recB.x + recB.w >= recA.x &&
-			recA.y + recA.h >= recB.y &&
-			recB.y + recB.h >= recA.y)
+		recA.x + recA.w >= recB.x &&
+		recB.x + recB.w >= recA.x &&
+		recA.y + recA.h >= recB.y &&
+		recB.y + recB.h >= recA.y)
 	{
 		return true;
 	}
@@ -16,7 +16,7 @@ bool Collision::AABB(const SDL_Rect &recA, const SDL_Rect &recB)
 	return false;
 }
 
-bool Collision::AABB(const ColliderComponent &colA, const ColliderComponent &colB)
+bool Collision::AABB(const ColliderComponent& colA, const ColliderComponent& colB)
 {
 	if (AABB(colA.collider, colB.collider))
 	{
@@ -29,7 +29,7 @@ bool Collision::AABB(const ColliderComponent &colA, const ColliderComponent &col
 	}
 }
 
-ScreenCollision Collision::Screen(const ColliderComponent &rec)
+ScreenCollision Collision::Screen(const ColliderComponent& rec)
 {
 	if (rec.collider.x <= 0)
 	{
@@ -64,7 +64,7 @@ ScreenCollision Collision::Screen(const ColliderComponent &rec)
 	return ScreenCollision::NOPE;
 }
 
-void Collision::PlayerScreenCollision(const ColliderComponent &playerCollider, TransformComponent &playerTransform)
+void Collision::PlayerScreenCollision(const ColliderComponent& playerCollider, TransformComponent& playerTransform)
 {
 	switch (Screen(playerCollider))
 	{
@@ -113,7 +113,7 @@ void Collision::PlayerScreenCollision(const ColliderComponent &playerCollider, T
 	}
 }
 
-void Collision::BallScreenCollision(const ColliderComponent &ballCollider, TransformComponent &ballTransform)
+void Collision::BallScreenCollision(const ColliderComponent& ballCollider, TransformComponent& ballTransform)
 {
 	switch (Screen(ballCollider))
 	{
@@ -143,31 +143,49 @@ void Collision::BallScreenCollision(const ColliderComponent &ballCollider, Trans
 	};
 }
 
-void Collision::PlayerBallCollision(const ColliderComponent &playerCollider, const TransformComponent &playerTransform,
-																		const ColliderComponent &ballCollider, TransformComponent &ballTransform)
+void Collision::PlayerBallCollision(const ColliderComponent& playerCollider, TransformComponent& playerTransform,
+	const ColliderComponent& ballCollider, TransformComponent& ballTransform)
 {
 	if (AABB(playerCollider, ballCollider))
 	{
-		ballTransform.velocity = playerTransform.velocity;
-		ballTransform.speed = 10;
-		ballTransform.deltaSpeed = 10.0f / DELTAFRAME;
+		//Vector2D vObjOther(playerTransform.position.x - ballTransform.position.x,
+		//	playerTransform.position.y - ballTransform.position.y);
+		//vObjOther.Normalize();
+		////player1Transform.velocity + (vObjOther);
+		//ballTransform.velocity + vObjOther.Rotate(PI);
+		//ballTransform.velocity.Normalize();
+		if (playerTransform.velocity.Length() < EPSILON)
+		{
+			ballTransform.velocity * -1;
+
+		}
+		else if (ballTransform.velocity.Dot(playerTransform.velocity) > 0)
+		{
+			ballTransform.velocity * -1;
+			ballTransform.speed += 5;
+		}
+		else
+		{
+			ballTransform.velocity = playerTransform.velocity;
+			ballTransform.speed = 15;
+			ballTransform.deltaSpeed = 15.0f / DELTAFRAME;
+		}
 	}
 }
-void Collision::PlayerToPlayerCollision(const ColliderComponent &player1Collider, TransformComponent &player1Transform,
-																				const ColliderComponent &player2Collider, TransformComponent &player2Transform)
+
+void Collision::PlayerToPlayerCollision(const ColliderComponent& player1Collider, TransformComponent& player1Transform,
+	const ColliderComponent& player2Collider, TransformComponent& player2Transform)
 {
 	if (AABB(player1Collider, player2Collider))
 	{
 		Vector2D vObjOther(player1Transform.position.x - player2Transform.position.x,
-											 player1Transform.position.y - player2Transform.position.y);
+			player1Transform.position.y - player2Transform.position.y);
 		vObjOther.Normalize();
 		double dist = player1Transform.DistanceTo(player2Transform);
 		double s = player1Transform.height - dist / 2; // big enough for not to stick to each other
 		// player1Transform.position += (Vector2D(vObjOther.x * s, vObjOther.y * s));
 		// player2Transform.position += (Vector2D(vObjOther.x * s, vObjOther.y * s)).Rotate(PI);
-		player1Transform.velocity += (vObjOther);
-		player2Transform.velocity += (vObjOther).Rotate(PI);
-		
-		std::cout << vObjOther << " " << s << " " << player1Transform.deltaSpeed << " " << player1Transform.speed << " collide " << player2Transform.deltaSpeed << " " << player1Transform.speed << '\n';
+		player1Transform.velocity + (vObjOther);
+		player2Transform.velocity + (vObjOther).Rotate(PI);
 	}
 }

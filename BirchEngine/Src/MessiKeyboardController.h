@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "ECS.h"
 #include "Component.h"
+#include <iostream>
 
 class MessiKeyboardController : public Component
 {
@@ -63,6 +64,7 @@ public:
 				break;
 			case SDLK_DOWN:
 				transform->velocity.y = 0;
+				std::cout << "Haha" << std::endl;
 				//sprite->Play("Idle");
 				break;
 			case SDLK_ESCAPE:

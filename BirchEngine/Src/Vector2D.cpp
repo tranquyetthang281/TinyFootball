@@ -116,7 +116,6 @@ void Vector2D::Normalize()
 	double l = Length();
 	if (l < 0.0001)
 	{
-		std::cout << l << *this << '\n';
 		this->x = 1;
 		this->y = 0;
 	}

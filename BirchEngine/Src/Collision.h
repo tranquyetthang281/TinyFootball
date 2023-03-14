@@ -25,7 +25,7 @@ public:
 	static ScreenCollision Screen(const ColliderComponent &rec);
 	static void PlayerScreenCollision(const ColliderComponent &playerCollider, TransformComponent &playerTransform);
 	static void BallScreenCollision(const ColliderComponent &ballCollider, TransformComponent &ballTransform);
-	static void PlayerBallCollision(const ColliderComponent &playerCollider, const TransformComponent &playerTransform,
+	static void PlayerBallCollision(const ColliderComponent &playerCollider, TransformComponent &playerTransform,
 																	const ColliderComponent &ballCollider, TransformComponent &ballTransform);
 	static void PlayerToPlayerCollision(const ColliderComponent& player1Collider, TransformComponent& player1Transform,
 		const ColliderComponent& player2Collider, TransformComponent& player2Transform);
