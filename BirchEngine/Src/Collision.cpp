@@ -116,10 +116,32 @@ void Collision::PlayerScreenCollision(const ColliderComponent& playerCollider, T
 
 void Collision::BallScreenCollision(const ColliderComponent& ballCollider, TransformComponent& ballTransform)
 {
-	if (Screen(ballCollider) != ScreenCollision::NOPE)
+	switch (Screen(ballCollider))
 	{
-		ballTransform.velocity * -1;
+	case ScreenCollision::LEFT:
+	case ScreenCollision::RIGHT:
+	{
+		Vector2D normalX(1, 0);
+		ballTransform.velocity - (normalX * (2 * ballTransform.velocity.Dot(normalX)));
 	}
+	break;
+	case ScreenCollision::UP:
+	case ScreenCollision::DOWN:
+	{
+		Vector2D normalY(0, 1);
+		ballTransform.velocity - (normalY * (2 * ballTransform.velocity.Dot(normalY)));
+	}
+	break;
+	case ScreenCollision::LEFTDOWN:
+	case ScreenCollision::LEFTUP:
+	case ScreenCollision::RIGHTDOWN:
+	case ScreenCollision::RIGHTUP:
+		ballTransform.velocity * -1;
+		break;
+
+	default:
+		break;
+	};
 }
 
 void Collision::PlayerBallCollision(const ColliderComponent& playerCollider, const TransformComponent& playerTransform,
