@@ -124,7 +124,6 @@ void Vector2D::Normalize()
 		this->x /= l;
 		this->y /= l;
 	}
-	std::cout << *this << '\n';
 }
 double Vector2D::Length()
 {

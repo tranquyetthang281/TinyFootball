@@ -17,6 +17,12 @@ Entity *ball(manager.addEntity());
 Entity *players[2 * NUMPLAYER];
 bool Game::isRunning = false;
 
+int Game::controlIdM = 1 + NUMPLAYER;
+bool Game::setM = false;
+
+int Game::controlIdR = 1;
+bool Game::setR = false;
+
 Game::Game()
 {
 }
@@ -45,9 +51,9 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
 	for (int i = 0; i < NUMPLAYER; ++i)
 	{
 		ronaldos[i] = manager.addEntity();
-		ronaldos[i]->addComponent<TransformComponent>("ronaldo", 100 + 100 * i, 100, 64, 64, i + 1);
+		ronaldos[i]->addComponent<TransformComponent>("ronaldo", 100 + 100 * i, 100, 64, 64, 1 + i);
 		ronaldos[i]->addComponent<SpriteComponent>("Imgs/ronaldo.png");
-		//ronaldos[i]->addComponent<RonaldoKeyboardController>();
+		ronaldos[i]->addComponent<RonaldoKeyboardController>();
 		ronaldos[i]->addComponent<ColliderComponent>();
 		players[i] = ronaldos[i];
 	}
@@ -88,16 +94,6 @@ void Game::update()
 {
 	manager.refresh();
 
-	for (auto& p : players)
-	{
-		for (auto& op : players)
-		{
-			if (p->getComponent<TransformComponent>().id != op->getComponent<TransformComponent>().id)
-				Collision::PlayerToPlayerCollision(p->getComponent<ColliderComponent>(), p->getComponent<TransformComponent>(),
-					op->getComponent<ColliderComponent>(), op->getComponent<TransformComponent>());
-		}
-	}
-
 	for (auto ronaldo : ronaldos)
 	{
 		Collision::PlayerBallCollision(ronaldo->getComponent<ColliderComponent>(), ronaldo->getComponent<TransformComponent>(),
@@ -118,7 +114,15 @@ void Game::update()
 
 	Collision::BallScreenCollision(ball->getComponent<ColliderComponent>(),
 																 ball->getComponent<TransformComponent>());
-
+	for (auto &p : players)
+	{
+		for (auto &op : players)
+		{
+			if (p->getComponent<TransformComponent>().id != op->getComponent<TransformComponent>().id)
+				Collision::PlayerToPlayerCollision(p->getComponent<ColliderComponent>(), p->getComponent<TransformComponent>(),
+																					 op->getComponent<ColliderComponent>(), op->getComponent<TransformComponent>());
+		}
+	}
 	manager.update();
 }
 
