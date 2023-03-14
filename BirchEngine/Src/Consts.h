@@ -8,4 +8,6 @@ const int HEIGHT = 680;
 
 const int DELTAFRAME = 200;
 
-const int NUMPLAYER = 3;
+const int NUMPLAYER = 2;
+
+const double PI = 3.14;

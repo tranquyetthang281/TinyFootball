@@ -6,6 +6,7 @@
 class TransformComponent : public Component
 {
 public:
+	int id;
 	Vector2D position;
 	Vector2D velocity;
 
@@ -28,12 +29,13 @@ public:
 		position.y = y;
 	}
 
-	TransformComponent(std::string t, float x, float y, int h, int w) : Component(t)
+	TransformComponent(std::string t, float x, float y, int h, int w, int i) : Component(t)
 	{
 		position.x = x;
 		position.y = y;
 		height = h;
 		width = w;
+		id = i;
 	}
 
 	void init() override
@@ -59,5 +61,10 @@ public:
 				}
 			}
 		}
+	}
+	double DistanceTo(const TransformComponent &t)
+	{
+		Vector2D v(position.x - t.position.x, position.y - t.position.y);
+		return v.Length();
 	}
 };
