@@ -100,6 +100,12 @@ Vector2D& Vector2D::Zero()
 	return *this;
 }
 
+float Vector2D::Dot(const Vector2D& vec)
+{
+	return this->x * vec.x + this->y * vec.y;
+}
+
+
 std::ostream& operator<<(std::ostream& stream, const Vector2D& vec)
 {
 	stream << "(" << vec.x << "," << vec.y << ")";

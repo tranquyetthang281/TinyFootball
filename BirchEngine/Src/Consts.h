@@ -6,6 +6,6 @@ const int WIDTH = 1050;
 const int HEIGHT = 680;
 
 
-const int DELTAFRAME = 100;
+const int DELTAFRAME = 200;
 
 const int NUMPLAYER = 3;
