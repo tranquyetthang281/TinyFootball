@@ -168,6 +168,6 @@ void Collision::PlayerToPlayerCollision(const ColliderComponent &player1Collider
 		player1Transform.velocity += (vObjOther);
 		player2Transform.velocity += (vObjOther).Rotate(PI);
 		
-		std::cout << vObjOther << " " << s << " " << player1Transform.deltaSpeed << " " << player1Transform.speed << " collide " << player2Transform.deltaSpeed << " " << player1Transform.speed << '\n';
+		// std::cout << vObjOther << " " << s << " " << player1Transform.deltaSpeed << " " << player1Transform.speed << " collide " << player2Transform.deltaSpeed << " " << player1Transform.speed << '\n';
 	}
 }
