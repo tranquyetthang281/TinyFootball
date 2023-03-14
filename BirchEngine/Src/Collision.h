@@ -20,11 +20,14 @@ enum class ScreenCollision
 class Collision
 {
 public:
-	static bool AABB(const SDL_Rect& recA, const SDL_Rect& recB);
-	static bool AABB(const ColliderComponent& colA, const ColliderComponent& colB);
-	static ScreenCollision Screen(const ColliderComponent& rec);
-	static void PlayerScreenCollision(const ColliderComponent& playerCollider, TransformComponent& playerTransform);
-	static void BallScreenCollision(const ColliderComponent& ballCollider, TransformComponent& ballTransform);
-	static void PlayerBallCollision(const ColliderComponent& playerCollider, const TransformComponent& playerTransform,
-		const ColliderComponent& ballCollider, TransformComponent& ballTransform);
+	static bool AABB(const SDL_Rect &recA, const SDL_Rect &recB);
+	static bool AABB(const ColliderComponent &colA, const ColliderComponent &colB);
+	static ScreenCollision Screen(const ColliderComponent &rec);
+	static void PlayerScreenCollision(const ColliderComponent &playerCollider, TransformComponent &playerTransform);
+	static void BallScreenCollision(const ColliderComponent &ballCollider, TransformComponent &ballTransform);
+	static void PlayerBallCollision(const ColliderComponent &playerCollider, const TransformComponent &playerTransform,
+																	const ColliderComponent &ballCollider, TransformComponent &ballTransform);
+	static void PlayerToPlayerCollision(const ColliderComponent &player1Collider, TransformComponent &player1Transform,
+																			const ColliderComponent &player2Collider, TransformComponent &player2Transform);
+	static void PlayerWithWallCollision(const ColliderComponent &playerC, TransformComponent &playerT);
 };
