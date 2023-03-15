@@ -25,23 +25,7 @@ int Game::controlIdR = NUMPLAYER;
 bool Game::setR = false;
 int Game::pointR = 0;
 
-TTF_Font *Sans;
 
-// this is the color in rgb format,
-// maxing out all would give you the color white,
-// and it will be your text's color
-SDL_Color White;
-
-// as TTF_RenderText_Solid could only be used on
-// SDL_Surface then you have to create the surface first
-SDL_Surface *surfaceMessage;
-
-// now you can convert it into a texture
-SDL_Texture *Message;
-// now you can convert it into a texture
-// SDL_Texture *Message = SDL_CreateTextureFromSurface(Game::renderer, surfaceMessage);
-
-SDL_Rect Message_rect; // create a rect
 
 Game::Game()
 {
@@ -53,16 +37,6 @@ Game::~Game()
 
 void Game::init(const char *title, int width, int height, bool fullscreen)
 {
-	
-	Sans = TTF_OpenFont("OpenSans-Bold.ttf", 24);
-	White = {255, 255, 255};
-	surfaceMessage =
-			TTF_RenderText_Solid(Sans, "put your text here", White);
-	Message = SDL_CreateTextureFromSurface(Game::renderer, surfaceMessage);
-	Message_rect.x = 0;		// controls the rect's x coordinate
-	Message_rect.y = 0;		// controls the rect's y coordinte
-	Message_rect.w = 100; // controls the width of the rect
-	Message_rect.h = 100; // controls the height of the rect
 	int flags = 0;
 
 	if (fullscreen)

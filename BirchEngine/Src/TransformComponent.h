@@ -58,17 +58,21 @@ public:
 			{
 				speed = 0.0f;
 			}
-			if (position.x < 10 && position.y >= 300 && position.y <= 380)
+		}
+		if (tag == "ball")
+		{
+			if (position.x < 10 && position.y >= 280 && position.y <= 400)
 			{
-				std::cout << "in ball1\n";
+				// std::cout << "in ball1\n";
 				Game::pointM++;
 				position.x = 525;
 				position.y = 340;
 				speed = 0;
 				deltaSpeed = 0;
-				std::cout << Game::pointM << "-" << Game::pointR << '\n';
+				std::cout << "Messi* - Ronaldo :" << Game::pointM << "-" << Game::pointR << '\n';
+				return;
 			}
-			if (position.x > 1040 && position.y >= 300 && position.y <= 380)
+			if (position.x > 1010 && position.y >= 280 && position.y <= 400)
 			{
 				std::cout << "in ball2\n";
 				Game::pointR++;
@@ -76,12 +80,11 @@ public:
 				position.y = 340;
 				speed = 0;
 				deltaSpeed = 0;
-				std::cout << Game::pointM << "-" << Game::pointR << '\n';
+				std::cout << "Messi - Ronaldo* :" << Game::pointM << "-" << Game::pointR << '\n';
 			}
 		}
-
 	}
-	double DistanceTo(const TransformComponent& t)
+	double DistanceTo(const TransformComponent &t)
 	{
 		Vector2D v(position.x - t.position.x, position.y - t.position.y);
 		return v.Length();
