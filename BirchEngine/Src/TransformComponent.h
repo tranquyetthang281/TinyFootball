@@ -47,22 +47,21 @@ public:
 	{
 		position.x += static_cast<int>(velocity.x * speed);
 		position.y += static_cast<int>(velocity.y * speed);
-		if (tag == "ball")
+
+		if (deltaSpeed > EPSILON)
 		{
-			if (deltaSpeed > EPSILON)
+			if (speed > deltaSpeed)
 			{
-				if (speed > deltaSpeed)
-				{
-					speed -= deltaSpeed;
-				}
-				else
-				{
-					speed = 0.0f;
-				}
+				speed -= deltaSpeed;
+			}
+			else
+			{
+				speed = 0.0f;
 			}
 		}
+
 	}
-	double DistanceTo(const TransformComponent &t)
+	double DistanceTo(const TransformComponent& t)
 	{
 		Vector2D v(position.x - t.position.x, position.y - t.position.y);
 		return v.Length();

@@ -3,6 +3,9 @@
 #include "SDL.h"
 #include "SDL_image.h"
 #include <iostream>
+#include "Consts.h"
+
+class Entity;
 
 class Game
 {
@@ -29,6 +32,9 @@ public:
 	static bool setR;
 
 	bool running() { return Game::isRunning; }
+
+	static Entity* ronaldos[NUMPLAYER];
+	static Entity* messis[NUMPLAYER];
 
 private:
 	int cnt = 0;

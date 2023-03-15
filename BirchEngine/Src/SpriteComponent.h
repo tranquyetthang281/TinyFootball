@@ -33,9 +33,6 @@ public:
 		texture = TextureManager::LoadTexture(path);
 	}
 
-	void setTex(std::string id)
-	{
-	}
 
 	void init() override
 	{

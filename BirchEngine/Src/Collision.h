@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL.h>
+#include <string>
 
 class ColliderComponent;
 class TransformComponent;
@@ -29,4 +30,9 @@ public:
 																	const ColliderComponent &ballCollider, TransformComponent &ballTransform);
 	static void PlayerToPlayerCollision(const ColliderComponent& player1Collider, TransformComponent& player1Transform,
 		const ColliderComponent& player2Collider, TransformComponent& player2Transform);
+
+	static bool lockedBallScreen;
+	static bool lockedBallPlayer;
+	static int playerId;
+	static std::string playerTag;
 };

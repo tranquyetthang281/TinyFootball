@@ -11,8 +11,8 @@ SDL_Renderer *Game::renderer = nullptr;
 SDL_Event Game::event;
 SDL_Texture *Game::backGroundTex = nullptr;
 Manager manager;
-Entity *ronaldos[NUMPLAYER];
-Entity *messis[NUMPLAYER];
+Entity* Game::ronaldos[] = {};
+Entity *Game::messis[] = {};
 Entity *ball(manager.addEntity());
 Entity *players[2 * NUMPLAYER];
 bool Game::isRunning = false;
@@ -20,7 +20,7 @@ bool Game::isRunning = false;
 int Game::controlIdM = 1 + NUMPLAYER;
 bool Game::setM = false;
 
-int Game::controlIdR = 1;
+int Game::controlIdR = NUMPLAYER;
 bool Game::setR = false;
 
 Game::Game()
@@ -58,17 +58,20 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
 		players[i] = ronaldos[i];
 	}
 
-	ronaldos[0]->addComponent<RonaldoKeyboardController>();
+	ronaldos[controlIdR - 1]->getComponent<SpriteComponent>().SetTex("Imgs/ronaldo-active.png");
 
 	for (int i = 0; i < NUMPLAYER; ++i)
 	{
 		messis[i] = manager.addEntity();
-		messis[i]->addComponent<TransformComponent>("messi", 100 + 100 * i, 500, 64, 64, i + 1 + NUMPLAYER);
+		messis[i]->addComponent<TransformComponent>("messi", 650 + 100 * i, 100, 64, 64, i + 1 + NUMPLAYER);
 		messis[i]->addComponent<SpriteComponent>("Imgs/messi.png");
 		messis[i]->addComponent<MessiKeyboardController>();
 		messis[i]->addComponent<ColliderComponent>();
 		players[i + NUMPLAYER] = messis[i];
 	}
+
+	messis[controlIdM - 1 - NUMPLAYER]->getComponent<SpriteComponent>().SetTex("Imgs/messi-active.png");
+
 
 	ball->addComponent<TransformComponent>("ball", 300.0f, 300.0f);
 	ball->addComponent<SpriteComponent>("Imgs/soccer-ball.png");
@@ -94,6 +97,16 @@ void Game::update()
 {
 	manager.refresh();
 
+	for (auto& p : players)
+	{
+		for (auto& op : players)
+		{
+			if (p->getComponent<TransformComponent>().id != op->getComponent<TransformComponent>().id)
+				Collision::PlayerToPlayerCollision(p->getComponent<ColliderComponent>(), p->getComponent<TransformComponent>(),
+					op->getComponent<ColliderComponent>(), op->getComponent<TransformComponent>());
+		}
+	}
+
 	for (auto ronaldo : ronaldos)
 	{
 		Collision::PlayerBallCollision(ronaldo->getComponent<ColliderComponent>(), ronaldo->getComponent<TransformComponent>(),
@@ -114,15 +127,7 @@ void Game::update()
 
 	Collision::BallScreenCollision(ball->getComponent<ColliderComponent>(),
 																 ball->getComponent<TransformComponent>());
-	for (auto &p : players)
-	{
-		for (auto &op : players)
-		{
-			if (p->getComponent<TransformComponent>().id != op->getComponent<TransformComponent>().id)
-				Collision::PlayerToPlayerCollision(p->getComponent<ColliderComponent>(), p->getComponent<TransformComponent>(),
-																					 op->getComponent<ColliderComponent>(), op->getComponent<TransformComponent>());
-		}
-	}
+
 	manager.update();
 }
 

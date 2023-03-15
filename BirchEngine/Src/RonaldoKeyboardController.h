@@ -3,11 +3,12 @@
 #include "Game.h"
 #include "ECS.h"
 #include "Component.h"
+#include <ctime>
 
 class RonaldoKeyboardController : public Component
 {
 public:
-	TransformComponent *transform;
+	TransformComponent* transform;
 	// SpriteComponent* sprite;
 
 	void init() override
@@ -18,11 +19,25 @@ public:
 
 	void update() override
 	{
+		//if (transform->id != Game::controlIdR)
+		//{
+		//	transform->speed = 3.0f;
+		//	transform->deltaSpeed = 0.0f;
+		//	srand(time(NULL));
+		//	int res = rand();
+		//	if (res % 2 == 0)
+		//	{
+
+		//	}
+		//}
+
 		if (Game::event.type == SDL_KEYDOWN)
 		{
 			// std::cout << transform->id << " " << Game::controlIdR << '\n';
 			if (transform->id == Game::controlIdR)
 			{
+				transform->speed = 3.0f;
+				transform->deltaSpeed = 0.0f;
 				switch (Game::event.key.keysym.sym)
 				{
 				case SDLK_w:
@@ -45,6 +60,8 @@ public:
 				case SDLK_SPACE:
 					if (Game::setR == false)
 					{
+						Game::ronaldos[Game::controlIdR - 1]->getComponent<SpriteComponent>().SetTex("Imgs/ronaldo.png");
+
 						Game::controlIdR++;
 						if (Game::controlIdR > NUMPLAYER)
 						{
@@ -52,6 +69,8 @@ public:
 						}
 						std::cout << transform->id << " " << Game::controlIdR << '\n';
 						Game::setR = true;
+						Game::ronaldos[Game::controlIdR - 1]->getComponent<SpriteComponent>().SetTex("Imgs/ronaldo-active.png");
+
 					}
 					break;
 				default:

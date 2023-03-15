@@ -2,6 +2,11 @@
 #include "ColliderComponent.h"
 #include "Consts.h"
 
+bool Collision::lockedBallScreen = false;
+bool Collision::lockedBallPlayer = false;
+int Collision::playerId = -1;
+std::string Collision::playerTag = "";
+
 bool Collision::AABB(const SDL_Rect& recA, const SDL_Rect& recB)
 {
 	if (
@@ -115,30 +120,40 @@ void Collision::PlayerScreenCollision(const ColliderComponent& playerCollider, T
 
 void Collision::BallScreenCollision(const ColliderComponent& ballCollider, TransformComponent& ballTransform)
 {
+
 	switch (Screen(ballCollider))
 	{
 	case ScreenCollision::LEFT:
 	case ScreenCollision::RIGHT:
-	{
-		Vector2D normalX(1, 0);
-		ballTransform.velocity - (normalX * (2 * ballTransform.velocity.Dot(normalX)));
-	}
-	break;
+		if (!lockedBallScreen)
+		{
+			Vector2D normalX(1, 0);
+			ballTransform.velocity - (normalX * (2 * ballTransform.velocity.Dot(normalX)));
+			lockedBallScreen = false;
+		}
+		break;
 	case ScreenCollision::UP:
 	case ScreenCollision::DOWN:
-	{
-		Vector2D normalY(0, 1);
-		ballTransform.velocity - (normalY * (2 * ballTransform.velocity.Dot(normalY)));
-	}
-	break;
+		if (!lockedBallScreen)
+		{
+			Vector2D normalY(0, 1);
+			ballTransform.velocity - (normalY * (2 * ballTransform.velocity.Dot(normalY)));
+			lockedBallScreen = false;
+		}
+		break;
 	case ScreenCollision::LEFTDOWN:
 	case ScreenCollision::LEFTUP:
 	case ScreenCollision::RIGHTDOWN:
 	case ScreenCollision::RIGHTUP:
-		ballTransform.velocity * -1;
+		if (!lockedBallScreen)
+		{
+			ballTransform.velocity * -1;
+			lockedBallScreen = false;
+		}
 		break;
 
 	default:
+		lockedBallScreen = false;
 		break;
 	};
 }
@@ -154,22 +169,32 @@ void Collision::PlayerBallCollision(const ColliderComponent& playerCollider, Tra
 		////player1Transform.velocity + (vObjOther);
 		//ballTransform.velocity + vObjOther.Rotate(PI);
 		//ballTransform.velocity.Normalize();
-		if (playerTransform.velocity.Length() < EPSILON)
+		if (!lockedBallPlayer)
 		{
-			ballTransform.velocity * -1;
+			if (playerTransform.velocity.Length() < EPSILON)
+			{
+				ballTransform.velocity * -1;
 
+			}
+			else if (ballTransform.velocity.Dot(playerTransform.velocity) > 0)
+			{
+				ballTransform.velocity * -1;
+			}
+			else
+			{
+				ballTransform.velocity = playerTransform.velocity;
+				ballTransform.speed = 12.0f;
+				ballTransform.deltaSpeed = 12.0f / DELTAFRAME;
+			}
+			lockedBallPlayer = true;
+			playerId = playerTransform.id;
+			playerTag = playerTransform.tag;
 		}
-		else if (ballTransform.velocity.Dot(playerTransform.velocity) > 0)
-		{
-			ballTransform.velocity * -1;
-			ballTransform.speed += 5;
-		}
-		else
-		{
-			ballTransform.velocity = playerTransform.velocity;
-			ballTransform.speed = 15;
-			ballTransform.deltaSpeed = 15.0f / DELTAFRAME;
-		}
+	}
+	else
+	{
+		if (playerId == playerTransform.id && playerTag == playerTransform.tag)
+			lockedBallPlayer = false;
 	}
 }
 
@@ -186,6 +211,12 @@ void Collision::PlayerToPlayerCollision(const ColliderComponent& player1Collider
 		// player1Transform.position += (Vector2D(vObjOther.x * s, vObjOther.y * s));
 		// player2Transform.position += (Vector2D(vObjOther.x * s, vObjOther.y * s)).Rotate(PI);
 		player1Transform.velocity + (vObjOther);
+		player1Transform.velocity.Normalize();
+		player1Transform.speed = 3.0f;
+		player1Transform.deltaSpeed = 3.0f / DELTAFRAME;
 		player2Transform.velocity + (vObjOther).Rotate(PI);
+		player2Transform.velocity.Normalize();
+		player2Transform.speed = 3.0f;
+		player2Transform.deltaSpeed = 3.0f / DELTAFRAME;
 	}
 }

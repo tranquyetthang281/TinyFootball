@@ -7,13 +7,13 @@
 class MessiKeyboardController : public Component
 {
 public:
-	TransformComponent *transform;
-	// SpriteComponent* sprite;
+	TransformComponent* transform;
+	SpriteComponent* sprite;
 
 	void init() override
 	{
 		transform = &entity->getComponent<TransformComponent>();
-		// sprite = &entity->getComponent<SpriteComponent>();
+		sprite = &entity->getComponent<SpriteComponent>();
 	}
 
 	void update() override
@@ -22,6 +22,8 @@ public:
 		{
 			if (transform->id == Game::controlIdM)
 			{
+				transform->speed = 3.0f;
+				transform->deltaSpeed = 0.0f;
 				switch (Game::event.key.keysym.sym)
 				{
 				case SDLK_UP:
@@ -44,6 +46,7 @@ public:
 				case SDLK_RETURN:
 					if (Game::setM == false)
 					{
+						Game::messis[Game::controlIdM - 1 - NUMPLAYER]->getComponent<SpriteComponent>().SetTex("Imgs/messi.png");
 						Game::controlIdM++;
 						if (Game::controlIdM > 2 * NUMPLAYER)
 						{
@@ -51,6 +54,7 @@ public:
 						}
 						std::cout << transform->id << " " << Game::controlIdM << '\n';
 						Game::setM = true;
+						Game::messis[Game::controlIdM - 1 - NUMPLAYER]->getComponent<SpriteComponent>().SetTex("Imgs/messi-active.png");
 					}
 					break;
 				default:
