@@ -2,6 +2,7 @@
 
 #include "SDL.h"
 #include "SDL_image.h"
+#include "SDL_ttf.h"
 #include <iostream>
 
 class Game
@@ -24,10 +25,11 @@ public:
 
 	static int controlIdM;
 	static bool setM;
-	
+	static int pointM;
+
 	static int controlIdR;
 	static bool setR;
-
+	static int pointR;
 	bool running() { return Game::isRunning; }
 
 private:
