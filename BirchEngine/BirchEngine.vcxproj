@@ -84,8 +84,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\intermediates\$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>D:\bogo\Classes\sdl\sdl\SDL2_image-2.0.1\include;D:\bogo\Classes\sdl\sdl\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\bogo\Classes\sdl\sdl\SDL2\lib\x64;D:\bogo\Classes\sdl\sdl\SDL2_image-2.0.1\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\bogo\Classes\sdl\sdl\SDL2_ttf\include;D:\bogo\Classes\sdl\sdl\SDL2_image-2.0.1\include;D:\bogo\Classes\sdl\sdl\SDL2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\bogo\Classes\sdl\sdl\SDL2_ttf\lib;D:\bogo\Classes\sdl\sdl\SDL2\lib\x64;D:\bogo\Classes\sdl\sdl\SDL2_image-2.0.1\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
@@ -112,9 +112,9 @@
       <AdditionalIncludeDirectories>D:\Downloads\Dev\Dev\SDL2_image-2.0.1\include;D:\Downloads\Dev\Dev\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>D:\bogo\Classes\sdl\sdl\SDL2\lib\x64;D:\bogo\Classes\sdl\sdl\SDL2_image-2.0.1\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\bogo\Classes\sdl\sdl\SDL2_ttf\lib;D:\bogo\Classes\sdl\sdl\SDL2\lib\x64;D:\bogo\Classes\sdl\sdl\SDL2_image-2.0.1\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;libSDL2_ttf.a;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

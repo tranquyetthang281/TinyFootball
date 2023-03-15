@@ -2,7 +2,7 @@
 #include "Component.h"
 #include "Vector2D.h"
 #include "Consts.h"
-
+#include "Game.h"
 class TransformComponent : public Component
 {
 public:
@@ -57,6 +57,26 @@ public:
 			else
 			{
 				speed = 0.0f;
+			}
+			if (position.x < 10 && position.y >= 300 && position.y <= 380)
+			{
+				std::cout << "in ball1\n";
+				Game::pointM++;
+				position.x = 525;
+				position.y = 340;
+				speed = 0;
+				deltaSpeed = 0;
+				std::cout << Game::pointM << "-" << Game::pointR << '\n';
+			}
+			if (position.x > 1040 && position.y >= 300 && position.y <= 380)
+			{
+				std::cout << "in ball2\n";
+				Game::pointR++;
+				position.x = 525;
+				position.y = 340;
+				speed = 0;
+				deltaSpeed = 0;
+				std::cout << Game::pointM << "-" << Game::pointR << '\n';
 			}
 		}
 
